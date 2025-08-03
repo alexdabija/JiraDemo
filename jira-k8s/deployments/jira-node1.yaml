@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jira
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: jira
+  template:
+    metadata:
+      labels:
+        app: jira
+    spec:
+      containers:
+      - name: jira
+        image: atlassian/jira-software:9.15.0
+        ports:
+        - containerPort: 8080
+        resources:
+          requests:
+            memory: "1Gi"
+            cpu: "500m"
+          limits:
+            memory: "1Gi"
+            cpu: "1"
+        env:
+        - name: ATL_JDBC_URL
+          value: jdbc:postgresql://postgres:5432/jiradb
+        - name: ATL_JDBC_USER
+          value: jira
+        - name: ATL_JDBC_PASSWORD
+          value: jira
+        - name: CLUSTERED
+          value: "true"
+        - name: JIRA_NODE_ID
+          value: node1
+        - name: JIRA_SHARED_HOME
+          value: /var/atlassian/application-data/jira/shared-home

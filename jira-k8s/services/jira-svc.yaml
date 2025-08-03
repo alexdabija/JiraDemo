@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: jira
+  namespace: jira-dc
+spec:
+  selector:
+    app: jira
+  ports:
+    - protocol: TCP
+      port: 8080        # Jira listens on 8080
+      targetPort: 8080
+  clusterIP: None       # For sticky sessions in Data Center mode
